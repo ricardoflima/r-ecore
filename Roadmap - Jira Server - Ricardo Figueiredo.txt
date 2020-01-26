@@ -1,0 +1,40 @@
+Passos da Instalação:
+Virtualização: Utilizado VirtualBox-6.1.2-135663-Win
+Sistema Operacional: Instalada versão estável mais recente do linux Ubuntu Desktop: 18.04.3 x64 (Conforme instruido no email do desafio tecnico)
+Sistema: Utilizei uma margem segura do que eu tenho disponível no meu Desktop atendendo os requisitos tecnicos de sistema do S.O e do Jira Software Server, sendo:
+2 vCPUs criados à partir do processador Intel(R) Core(TM) -i5-7400 CPU @3.00GHz
+8192 MB vRAM
+40 GB SSD
+user: ricardoflima // 32123ab
+Bibliotecas instaladas:
+JDK/JRE 1.8 (Instalado automaticamente pelo instalador do JIRA)
+Banco de Dados MYSQL 5.7 (https://confluence.atlassian.com/jsbr/conectar-aplicacoes-jira-ao-mysql-920354867.html)
+
+
+Comandos Realizados:
+sudo su
+apt-get update
+mkdir /home/jira/ && cd jira/
+wget https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-software-8.6.1-x64.bin
+chmod a+x atlassian-jira-software-8.6.1-x64.bin
+sudo atlassian-jira-software-8.6.1-x64.bin
+./atlassian-jira-software-8.6.1-x64.bin (instalado como serviço)
+apt-get install mysql-server mysql-client libmysqlclient-dev libmysql-java
+mysql_secure_installation
+mysql -uroot -p
+CREATE DATABASE jiradb CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,REFERENCES,DROP,ALTER,INDEX on jiradb.* TO 'jiradbuser'@'localhost' IDENTIFIED BY '123123ab'; (O JIRA não aceita caracteres especiais na senha)
+flush privileges;
+SHOW GRANTS FOR 'jiradbuser'@'localhost';
+wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java_8.0.19-1ubuntu18.04_all.deb
+dpkg -i mysql-connector-java_8.0.19-1ubuntu18.04_all.deb
+cp /usr/share/java/mysql-connector-java.jar /opt/atlassian/jira/lib
+reboot
+/opt/atlassian/jira/bin/start-jira.sh
+
+OBS:  1. Praticamente acompanhei todos os passos do portal da Atlassian com excessão de alguns erros de compatibilidade de versão com o banco de dados.
+https://confluence.atlassian.com/jsbr/instalar-aplicacoes-jira-no-linux-920354874.html
+	  2. Somente consegui extrair o arquivo r_ecore_jirabackup.zip via terminal linux por isso estou mandando os arquivos separadamente.
+
+
+Obrigado!!!!!!!
